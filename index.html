@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>نتائج تقييم الطالبات</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Tahoma, Arial;
+direction:rtl;
+background:#121212;
+color:#ffffff;
+}
+
+.header{
+background:#1f1f1f;
+color:#ffffff;
+padding:25px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+border-bottom:2px solid #2e7d32;
+}
+
+.container{
+max-width:650px;
+margin:30px auto;
+background:#1e1e1e;
+border-radius:20px;
+padding:25px;
+box-shadow:0 0 20px rgba(0,0,0,0.6);
+}
+
+input{
+width:100%;
+padding:15px;
+font-size:16px;
+border:1px solid #333;
+border-radius:12px;
+margin-top:10px;
+outline:none;
+background:#2a2a2a;
+color:white;
+}
+
+input::placeholder{
+color:#aaa;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:15px;
+background:#2e7d32;
+color:white;
+border:none;
+border-radius:12px;
+font-size:18px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#1b5e20;
+}
+
+.card{
+background:#2a2a2a;
+margin-top:20px;
+padding:20px;
+border-radius:15px;
+border-right:6px solid #2e7d32;
+color:#ffffff;
+}
+
+.row{
+margin:8px 0;
+font-size:15px;
+}
+
+.label{
+font-weight:bold;
+color:#4caf50;
+}
+
+.badge{
+display:inline-block;
+padding:5px 10px;
+background:#1b5e20;
+color:white;
+border-radius:8px;
+font-size:13px;
+margin-bottom:10px;
+}
+
+hr{
+border:0;
+border-top:1px solid #444;
+margin:15px 0;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+نظام تقييم الطالبات 📚
+</div>
+
+<div class="container">
+
+<h3 style="text-align:center;">استعلام عن التقييم</h3>
+
+<input type="text" id="civilId" placeholder="أدخلي الرقم المدني">
+
+<button onclick="searchStudent()">عرض النتيجة</button>
+
+<div id="results"></div>
+
+</div>
+
+<script>
+
+async function searchStudent(){
+
+const civilId = document.getElementById("civilId").value;
+
+const url =
+"https://script.google.com/macros/s/AKfycbyWRkPEyBb2T5eqFRo5G-G8wIHZe53OdN4n7Z9Zc0YVF7Wrb9gbgq4dQYaTNdYvgDs4SQ/exec?civil_id="
++ civilId;
+
+const response = await fetch(url);
+const data = await response.json();
+
+let html = "";
+
+if(data.length === 0){
+
+html = `
+<div class="card">
+❌ لا توجد نتيجة لهذا الرقم المدني
+</div>
+`;
+
+}else{
+
+data.forEach(item=>{
+
+html += `
+<div class="card">
+
+<div class="badge">${item.level}</div>
+
+<div class="row"><span class="label">اسم الطالبة:</span> ${item.name}</div>
+<div class="row"><span class="label">المستوى:</span> ${item.level}</div>
+<div class="row"><span class="label">وقت المجموعة:</span> ${item.groupTime}</div>
+<div class="row"><span class="label">اسم المعلمة:</span> ${item.teacher}</div>
+
+<hr>
+
+<div class="row"><span class="label">الالتزام بالحضور:</span> ${item.attendance}</div>
+<div class="row"><span class="label">أخطاء التشكيل:</span> ${item.tashkeel}</div>
+<div class="row"><span class="label">أحكام النون الساكنة:</span> ${item.noon}</div>
+<div class="row"><span class="label">أحكام الميم الساكنة:</span> ${item.meem}</div>
+<div class="row"><span class="label">مخارج الحروف:</span> ${item.makharij}</div>
+<div class="row"><span class="label">باب المدود:</span> ${item.madd}</div>
+<div class="row"><span class="label">باب الوقف والابتداء:</span> ${item.waqf}</div>
+
+</div>
+`;
+});
+
+}
+
+document.getElementById("results").innerHTML = html;
+
+}
+
+</script>
+
+</body>
+</html>
