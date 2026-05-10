@@ -1,5 +1,26 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>البحث</title>
+</head>
+
+<body>
+
+<h2>بحث الطالبة</h2>
+
+<input type="text" id="phone" placeholder="رقم الهاتف">
+
+<button onclick="searchStudent()">
+بحث
+</button>
+
+<div id="results"></div>
+
 <script>
+
 console.log("JS loaded");
+
 async function searchStudent(){
 
 try{
@@ -19,44 +40,28 @@ const url =
 const response = await fetch(url);
 
 const text = await response.text();
+
+console.log(text);
+
 const data = JSON.parse(text);
 
 let html = "";
 
 if(data.length === 0){
 
-html = `
-<div class="not-found">
-لا توجد نتيجة لهذا الرقم
-</div>
-`;
+html = "لا توجد نتيجة";
 
 }else{
 
 data.forEach(item=>{
 
 html += `
-<div class="card">
-
-<div class="badge">${item.level}</div>
-
-<div class="row"><span class="label">اسم الطالبة:</span> ${item.name}</div>
-<div class="row"><span class="label">المستوى:</span> ${item.level}</div>
-<div class="row"><span class="label">وقت المجموعة:</span> ${item.groupTime}</div>
-<div class="row"><span class="label">اسم المعلمة:</span> ${item.teacher}</div>
-
-<hr>
-
-<div class="row"><span class="label">الحضور:</span> ${item.attendance}</div>
-<div class="row"><span class="label">التشكيل:</span> ${item.tashkeel}</div>
-<div class="row"><span class="label">النون الساكنة:</span> ${item.noon}</div>
-<div class="row"><span class="label">الميم الساكنة:</span> ${item.meem}</div>
-<div class="row"><span class="label">المخارج:</span> ${item.makharij}</div>
-<div class="row"><span class="label">المدود:</span> ${item.madd}</div>
-<div class="row"><span class="label">الوقف:</span> ${item.waqf}</div>
-
+<div>
+<p>${item.name}</p>
+<p>${item.level}</p>
 </div>
 `;
+
 });
 
 }
@@ -67,14 +72,14 @@ document.getElementById("results").innerHTML = html;
 
 console.log(error);
 
-document.getElementById("results").innerHTML = `
-<div class="not-found">
-حدث خطأ أثناء جلب البيانات
-</div>
-`;
+document.getElementById("results").innerHTML =
+"حدث خطأ";
 
 }
 
 }
 
 </script>
+
+</body>
+</html>
