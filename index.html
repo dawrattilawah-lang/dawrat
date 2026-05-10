@@ -2,12 +2,19 @@
 
 async function searchStudent(){
 
+try{
+
 const phone =
 document.getElementById("phone").value;
 
+if(phone === ""){
+alert("يرجى إدخال رقم الهاتف");
+return;
+}
+
 const url =
 "https://script.google.com/macros/s/AKfycbzO1Ih5hYrCjBRTMaq-T6zuTs2gaCZm6WCdNteJzkruK5ysKG5pyAd4o6pj_KCA_IRapQ/exec?phone="
-+ phone;
++ encodeURIComponent(phone);
 
 const response = await fetch(url);
 
@@ -101,6 +108,18 @@ ${item.waqf}
 }
 
 document.getElementById("results").innerHTML = html;
+
+}catch(error){
+
+console.log(error);
+
+document.getElementById("results").innerHTML = `
+<div class="not-found">
+حدث خطأ أثناء جلب البيانات
+</div>
+`;
+
+}
 
 }
 
