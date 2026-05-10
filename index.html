@@ -5,7 +5,7 @@ async function searchStudent(){
 try{
 
 const phone =
-document.getElementById("phone").value;
+document.getElementById("phone").value.trim();
 
 if(phone === ""){
 alert("يرجى إدخال رقم الهاتف");
@@ -18,7 +18,8 @@ const url =
 
 const response = await fetch(url);
 
-const data = await response.json();
+const text = await response.text();
+const data = JSON.parse(text);
 
 let html = "";
 
@@ -35,74 +36,27 @@ html = `
 data.forEach(item=>{
 
 html += `
-
 <div class="card">
 
-<div class="badge">
-${item.level}
-</div>
+<div class="badge">${item.level}</div>
 
-<div class="row">
-<span class="label">اسم الطالبة:</span>
-${item.name}
-</div>
-
-<div class="row">
-<span class="label">المستوى:</span>
-${item.level}
-</div>
-
-<div class="row">
-<span class="label">وقت المجموعة:</span>
-${item.groupTime}
-</div>
-
-<div class="row">
-<span class="label">اسم المعلمة:</span>
-${item.teacher}
-</div>
+<div class="row"><span class="label">اسم الطالبة:</span> ${item.name}</div>
+<div class="row"><span class="label">المستوى:</span> ${item.level}</div>
+<div class="row"><span class="label">وقت المجموعة:</span> ${item.groupTime}</div>
+<div class="row"><span class="label">اسم المعلمة:</span> ${item.teacher}</div>
 
 <hr>
 
-<div class="row">
-<span class="label">الالتزام بالحضور:</span>
-${item.attendance}
-</div>
-
-<div class="row">
-<span class="label">أخطاء التشكيل:</span>
-${item.tashkeel}
-</div>
-
-<div class="row">
-<span class="label">أحكام النون الساكنة:</span>
-${item.noon}
-</div>
-
-<div class="row">
-<span class="label">أحكام الميم الساكنة:</span>
-${item.meem}
-</div>
-
-<div class="row">
-<span class="label">مخارج الحروف:</span>
-${item.makharij}
-</div>
-
-<div class="row">
-<span class="label">باب المدود:</span>
-${item.madd}
-</div>
-
-<div class="row">
-<span class="label">باب الوقف والابتداء:</span>
-${item.waqf}
-</div>
+<div class="row"><span class="label">الحضور:</span> ${item.attendance}</div>
+<div class="row"><span class="label">التشكيل:</span> ${item.tashkeel}</div>
+<div class="row"><span class="label">النون الساكنة:</span> ${item.noon}</div>
+<div class="row"><span class="label">الميم الساكنة:</span> ${item.meem}</div>
+<div class="row"><span class="label">المخارج:</span> ${item.makharij}</div>
+<div class="row"><span class="label">المدود:</span> ${item.madd}</div>
+<div class="row"><span class="label">الوقف:</span> ${item.waqf}</div>
 
 </div>
-
 `;
-
 });
 
 }
